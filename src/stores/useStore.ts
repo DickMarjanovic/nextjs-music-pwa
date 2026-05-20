@@ -6,6 +6,7 @@ type Song = { id: string; name: string; bpm: number }
 type State = {
   songs: Song[]
   addSong: (song: Song) => void
+  updateSong: (id: string, patch: Partial<Song>) => Promise<void>
   load: () => Promise<void>
 }
 
@@ -40,6 +41,21 @@ const useStore = create<State>((set, get) => ({
       syncSongsToCloud(all).catch(() => {})
     } catch (e) {
       // ignore if sync service not available yet
+    }
+  },
+  updateSong: async (id, patch) => {
+    set((s) => ({ songs: s.songs.map((song) => song.id === id ? { ...song, ...patch } : song) }))
+    const db = await getDB()
+    const updated = (get().songs.find((s) => s.id === id) as Song | undefined)
+    if (updated) await db.put('songs', updated)
+    try {
+      // sync to cloud if available
+      // @ts-ignore
+      const { syncSongsToCloud } = await import('../services/syncService')
+      const all = get().songs
+      syncSongsToCloud(all).catch(() => {})
+    } catch (e) {
+      // ignore
     }
   },
   load: async () => {
