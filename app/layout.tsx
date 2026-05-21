@@ -1,5 +1,16 @@
+import { initCloudSync } from "../src/services/syncService";
 import '../styles/globals.scss'
 import { Metadata } from 'next'
+
+initCloudSync({
+  apiKey: "AIzaSyBJNN0MquAuQ1XcDqYqnZ3boJKwk0VwXqQ",
+  authDomain: "groovly-2a756.firebaseapp.com",
+  projectId: "groovly-2a756",
+  storageBucket: "groovly-2a756.firebasestorage.app",
+  messagingSenderId: "75107342085",
+  appId: "1:75107342085:web:d182977d6dcafdf61b096c",
+  measurementId: "G-H5ZMDXHGQN"
+});
 
 export const metadata: Metadata = {
   title: 'Music Tools PWA',
@@ -18,7 +29,7 @@ export const metadata: Metadata = {
 
 export const viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', themeColor: '#1d4ed8' }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body>
