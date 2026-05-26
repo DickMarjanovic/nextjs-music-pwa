@@ -1,4 +1,6 @@
 import { initCloudSync } from "../src/services/syncService";
+import Header from '../src/components/Header'
+import Footer from '../src/components/Footer'
 import '../styles/globals.scss'
 import { Metadata } from 'next'
 
@@ -33,7 +35,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-        <main style={{padding:20}}>{children}</main>
+        <Header />
+        <main className="page-shell">{children}</main>
+        <Footer />
       </body>
     </html>
   )
