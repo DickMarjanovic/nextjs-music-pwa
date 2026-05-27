@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     title: 'MusicTools'
   },
   icons: {
-    icon: '/icon-192.png',
-    apple: '/apple-touch-icon.png'
+    icon: '/icon-192.svg',
+    apple: '/apple-touch-icon.svg'
   }
 }
 

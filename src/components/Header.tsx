@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import navItems from '../config/nav'
+import PwaInstallPrompt from './PwaInstallPrompt'
 
 export default function Header() {
   const pathname = usePathname()
@@ -12,7 +13,10 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="header-inner">
-        <div className="brand">Music Tools</div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
+          <div className="brand">Music Tools</div>
+          <PwaInstallPrompt />
+        </div>
 
         <button
           className="mobile-menu-button"

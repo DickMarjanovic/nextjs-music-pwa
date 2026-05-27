@@ -112,6 +112,22 @@ main.page-shell {
   top: 7px;
 }
 
+.pwa-install {
+  display: inline-flex;
+}
+
+.install-btn {
+  background: rgba(250, 250, 250, 0.12);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.install-btn:hover { background: rgba(255,255,255,0.08); }
+
 .site-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   font-size: 0.95rem;
