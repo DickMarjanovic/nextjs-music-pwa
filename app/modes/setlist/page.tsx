@@ -167,7 +167,14 @@ export default function SetlistManagerPage() {
               {songs.length === 0 ? (
                 <p style={{ marginTop: 8 }}>Add songs in the Song Library before selecting them here.</p>
               ) : (
-                <div style={{ marginTop: 8, display: 'grid', gap: 8 }}>
+                <div
+                  style={{
+                    marginTop: 8,
+                    display: 'grid',
+                    gap: 8,
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))'
+                  }}
+                >
                   {songs.map((song) => (
                     <label
                       key={song.id}
@@ -187,7 +194,7 @@ export default function SetlistManagerPage() {
                         onChange={() => toggleSongSelection(song.id)}
                       />
                       <span style={{ flex: 1 }}>
-                        {song.name} — {song.bpm} BPM
+                        {song.name}
                       </span>
                     </label>
                   ))}
@@ -216,7 +223,7 @@ export default function SetlistManagerPage() {
                       }}
                     >
                       <span>
-                        {index + 1}. {song.name} — {song.bpm} BPM
+                        {index + 1}. {song.name}
                       </span>
                       <button
                         type="button"
