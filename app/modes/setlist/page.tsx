@@ -43,7 +43,7 @@ export default function SetlistManagerPage() {
     const trimmedName = newSetlistName.trim()
     if (!trimmedName) return
     const id = Date.now().toString()
-    addSetlist({ id, name: trimmedName, songIds: [] })
+    addSetlist({ id, name: trimmedName, songIds: selectedSongIds })
     setActiveSetlistId(id)
     setNewSetlistName('')
   }
