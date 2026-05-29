@@ -4,6 +4,7 @@ import {
   getFirestore,
   collection,
   setDoc,
+  deleteDoc,
   doc,
   onSnapshot,
   getDocs,
@@ -17,6 +18,36 @@ export async function initCloudSync(config: FirebaseOptions) {
     initializeApp(config)
   }
   db = getFirestore()
+}
+
+export async function syncAddSong(song: any) {
+  if (!db) {
+    console.warn('Cloud sync not initialized. Call initCloudSync(config) first.')
+    return
+  }
+  const col = collection(db, 'songs')
+  const d = doc(col, song.id)
+  await setDoc(d, song)
+}
+
+export async function syncUpdateSong(id: string, patch: any) {
+  if (!db) {
+    console.warn('Cloud sync not initialized. Call initCloudSync(config) first.')
+    return
+  }
+  const col = collection(db, 'songs')
+  const d = doc(col, id)
+  await setDoc(d, patch, { merge: true })
+}
+
+export async function syncRemoveSong(id: string) {
+  if (!db) {
+    console.warn('Cloud sync not initialized. Call initCloudSync(config) first.')
+    return
+  }
+  const col = collection(db, 'songs')
+  const d = doc(col, id)
+  await deleteDoc(d)
 }
 
 export async function syncSongsToCloud(songs: any[]) {

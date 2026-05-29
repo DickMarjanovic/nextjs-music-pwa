@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import { openDB, type IDBPDatabase } from 'idb'
 
 type Song = { id: string; name: string; bpm: number }
@@ -7,7 +7,9 @@ type State = {
   songs: Song[]
   addSong: (song: Song) => void
   updateSong: (id: string, patch: Partial<Song>) => Promise<void>
+  removeSong: (id: string) => Promise<void>
   load: () => Promise<void>
+  syncToCloud: () => Promise<void>
 }
 
 let dbPromise: Promise<IDBPDatabase<unknown>> | null = null
@@ -36,9 +38,8 @@ const useStore = create<State>((set, get) => ({
       // but Next.js webpack resolver handles TS/TSX imports without extensions.
       // Silence the TS check here for the dynamic import.
       // @ts-ignore
-      const { syncSongsToCloud } = await import('../services/syncService')
-      const all = get().songs
-      syncSongsToCloud(all).catch(() => {})
+      const { syncAddSong } = await import('../services/syncService')
+      await syncAddSong(song).catch(() => {})
     } catch (e) {
       // ignore if sync service not available yet
     }
@@ -51,9 +52,21 @@ const useStore = create<State>((set, get) => ({
     try {
       // sync to cloud if available
       // @ts-ignore
-      const { syncSongsToCloud } = await import('../services/syncService')
-      const all = get().songs
-      syncSongsToCloud(all).catch(() => {})
+      const { syncUpdateSong } = await import('../services/syncService')
+      await syncUpdateSong(id, patch).catch(() => {})
+    } catch (e) {
+      // ignore
+    }
+  },
+  removeSong: async (id) => {
+    set((s) => ({ songs: s.songs.filter((song) => song.id !== id) }))
+    const db = await getDB()
+    await db.delete('songs', id)
+    try {
+      // sync to cloud if available
+      // @ts-ignore
+      const { syncRemoveSong } = await import('../services/syncService')
+      await syncRemoveSong(id).catch(() => {})
     } catch (e) {
       // ignore
     }
@@ -62,6 +75,16 @@ const useStore = create<State>((set, get) => ({
     const db = await getDB()
     const all = await db.getAll('songs')
     set({ songs: all as Song[] })
+  },
+  syncToCloud: async () => {
+    const all = get().songs
+    try {
+      // @ts-ignore
+      const { syncSongsToCloud } = await import('../services/syncService')
+      await syncSongsToCloud(all)
+    } catch (e) {
+      console.error('Failed to sync to cloud:', e)
+    }
   }
 }))
 
