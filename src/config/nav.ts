@@ -3,6 +3,7 @@ export const navItems = [
   { id: 'tempo', label: 'Tempo Detection', href: '/modes/tempo' },
   { id: 'metronome', label: 'Metronome', href: '/modes/metronome' },
   { id: 'library', label: 'Song Library', href: '/modes/library' },
+  { id: 'setlist', label: 'Setlist Manager', href: '/modes/setlist' },
 ]
 
 export default navItems
