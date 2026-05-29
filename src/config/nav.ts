@@ -4,6 +4,7 @@ export const navItems = [
   { id: 'metronome', label: 'Metronome', href: '/modes/metronome' },
   { id: 'library', label: 'Song Library', href: '/modes/library' },
   { id: 'setlist', label: 'Setlist Manager', href: '/modes/setlist' },
+  { id: 'performance', label: 'Performance', href: '/modes/performance' },
 ]
 
 export default navItems
