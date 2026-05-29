@@ -1,41 +1,18 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
-import Metronome from '../../../src/utils/audio/metronome'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function MetronomePage() {
-  const [bpm, setBpm] = useState(120)
-  const [playing, setPlaying] = useState(false)
-  const [perfMode, setPerfMode] = useState(false)
-  const [beatsPerBar] = useState(4)
-  const metronomeRef = useRef<Metronome | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
-    metronomeRef.current = new Metronome()
-    metronomeRef.current.setBpm(bpm)
-
-    return () => metronomeRef.current?.dispose()
-  }, [])
-
-  useEffect(() => {
-    metronomeRef.current?.setBpm(bpm)
-  }, [bpm])
-
-  function toggle() {
-    if (playing) metronomeRef.current?.stop()
-    else metronomeRef.current?.start({ performanceMode: perfMode, beatsPerBar })
-    setPlaying(!playing)
-  }
+    router.replace('/modes/tempo')
+  }, [router])
 
   return (
     <div>
-      <h2>Metronome</h2>
-      <div>
-        <label>BPM: <input type="number" value={bpm} onChange={(e)=>setBpm(Number(e.target.value))} /></label>
-      </div>
-      <div>
-        <label>Performance Mode (silent after 8 bars): <input type="checkbox" checked={perfMode} onChange={(e)=>setPerfMode(e.target.checked)} /></label>
-      </div>
-      <button onClick={toggle}>{playing ? 'Stop' : 'Start'}</button>
+      <h2>Redirecting...</h2>
+      <p>If you are not redirected automatically, <a href="/modes/tempo">click here to go to Tempo</a>.</p>
     </div>
   )
 }
